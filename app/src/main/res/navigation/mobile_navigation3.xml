@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation3"
+    app:startDestination="@+id/homeRescueFragment">
+
+
+    <fragment
+        android:id="@+id/homeRescueFragment"
+        android:name="com.example.rescuerover.Activity.rescue.ui.homeRescueFragment"
+        android:label="fragment_home_rescue"
+        tools:layout="@layout/fragment_home_rescue" />
+    <fragment
+        android:id="@+id/profileRescueFragment"
+        android:name="com.example.rescuerover.Activity.rescue.ui.profileRescueFragment"
+        android:label="fragment_profile_rescue"
+        tools:layout="@layout/fragment_profile_rescue" />
+</navigation>

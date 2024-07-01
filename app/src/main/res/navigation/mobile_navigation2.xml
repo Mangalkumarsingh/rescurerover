@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/homeGarbageFragment">
+
+
+    <fragment
+        android:id="@+id/homeGarbageFragment"
+        android:name="com.example.rescuerover.Activity.garbage.ui.homeGarbageFragment"
+        android:label="fragment_home_garbage"
+        tools:layout="@layout/fragment_home_garbage" />
+    <fragment
+        android:id="@+id/profileGarbageFragment"
+        android:name="com.example.rescuerover.Activity.garbage.ui.profileGarbageFragment"
+        android:label="fragment_profile_garbage"
+        tools:layout="@layout/fragment_profile_garbage" />
+</navigation>

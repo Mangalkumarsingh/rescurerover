@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "243139121355",
+    "firebase_url": "https://rescue-rover-c2462-default-rtdb.firebaseio.com",
+    "project_id": "rescue-rover-c2462",
+    "storage_bucket": "rescue-rover-c2462.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243139121355:android:791314d0e81e845a030b4e",
+        "android_client_info": {
+          "package_name": "com.example.rescuerover"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN5dag7UNU2HegVdzvjY_a9t-Be1-m808"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
