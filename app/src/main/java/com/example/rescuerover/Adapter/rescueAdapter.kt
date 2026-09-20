@@ -20,38 +20,44 @@ import com.squareup.picasso.Picasso
 import java.net.URL
 
 
-class rescueAdapter(var context:Context,var data:ArrayList<model>):RecyclerView.Adapter<rescueAdapter.myViewHolder>() {
+class rescueAdapter(var context: Context, var data: ArrayList<model>) :
+    RecyclerView.Adapter<rescueAdapter.myViewHolder>() {
 
-    var model=model()
-var a:URL?=null
-    inner class myViewHolder(var binding: ShowListBinding):RecyclerView.ViewHolder(binding.root){
+
+    var model = model()
+    var a: URL? = null
+
+    inner class myViewHolder(var binding: ShowListBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): rescueAdapter.myViewHolder {
-       return myViewHolder(ShowListBinding.inflate(LayoutInflater.from(context),parent,false))
+        return myViewHolder(ShowListBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
 
     @SuppressLint("SuspiciousIndentation")
-    override fun onBindViewHolder(holder: rescueAdapter.myViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(
+        holder: rescueAdapter.myViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
 
-        var show=data[position]
-holder.binding.delete.visibility= View.GONE
+        var show = data[position]
+        holder.binding.delete.visibility = View.GONE
 
-        holder.binding.bread.text=show.aName
-        holder.binding.location.text=show.location
-        holder.binding.rescueName.text=show.pName
-        holder.binding.date1.text= show.date.toString()
+        holder.binding.bread.text = show.aName
+        holder.binding.location.text = show.location
+        holder.binding.rescueName.text = show.pName
+        holder.binding.date1.text = show.date.toString()
 
         Picasso.get().load(show.image).into(holder.binding.listImage)
         holder.itemView.setOnClickListener {
-            var intent=Intent(context,callActivity::class.java)
+            var intent = Intent(context, callActivity::class.java)
 
-            intent.putExtra("image1",show.image.toString())
-            intent.putExtra("bread",show.aName)
-            intent.putExtra("location",show.exactLocation)
-            intent.putExtra("name",show.pName)
+            intent.putExtra("image1", show.image.toString())
+            intent.putExtra("bread", show.aName)
+            intent.putExtra("location", show.exactLocation)
+            intent.putExtra("name", show.pName)
 
             context.startActivity(intent)
 
@@ -74,5 +80,14 @@ holder.binding.delete.visibility= View.GONE
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    fun filterList(filterlist: ArrayList<model>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        data = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
     }
 }

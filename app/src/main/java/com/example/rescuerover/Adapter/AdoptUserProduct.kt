@@ -47,17 +47,7 @@ class AdoptUserProduct(var context: Context, var data:ArrayList<model>):Recycler
         holder.binding.date1.text= show.date.toString()
 
         Picasso.get().load(show.image).into(holder.binding.listImage)
-//        holder.itemView.setOnClickListener {
-//            var intent= Intent(context, callActivity::class.java)
-//
-//            intent.putExtra("image1",show.image.toString())
-//            intent.putExtra("bread",show.aName)
-//            intent.putExtra("location",show.exactLocation)
-//            intent.putExtra("name",show.pName)
-//
-//            context.startActivity(intent)
-//
-//        }
+
         holder.binding.delete.setOnClickListener {
             // var a = data[position]
             var id = show.id

@@ -12,27 +12,29 @@ class loginActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-auth=FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         binding.goToLogin.setOnClickListener {
-            startActivity(Intent(this@loginActivity,signInActivity::class.java))
+            startActivity(Intent(this@loginActivity, signInActivity::class.java))
         }
 //authentication code
 
 
-    binding.loginBtn.setOnClickListener {
-        auth.signInWithEmailAndPassword(binding.loginEmail.text.toString(),binding.loginPassword.text.toString()).addOnCompleteListener {
-            if (it.isSuccessful){
-                startActivity(Intent(this,selectActivity::class.java))
-                finish()
-            }
-            else{
-                Toast.makeText(this, "wrong email and password", Toast.LENGTH_SHORT).show()
+        binding.loginBtn.setOnClickListener {
+            auth.signInWithEmailAndPassword(
+                binding.loginEmail.text.toString(),
+                binding.loginPassword.text.toString()
+            ).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    startActivity(Intent(this, selectActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "wrong email and password", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
 
     }
 }

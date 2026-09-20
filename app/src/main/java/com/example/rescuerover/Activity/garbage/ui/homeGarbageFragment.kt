@@ -6,12 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rescuerover.Adapter.garbageAdapter
 //import com.example.rescuerover.Adapter.ItemDeleteListener
 import com.example.rescuerover.Adapter.rescueAdapter
+import com.example.rescuerover.Model.garbageModel
 import com.example.rescuerover.Model.model
 import com.example.rescuerover.R
 import com.example.rescuerover.databinding.FragmentHomeGarbageBinding
+import com.example.rescuerover.ui.home.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,15 +27,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
+class homeGarbageFragment : Fragment() {
 
-
-class homeGarbageFragment : Fragment(){
-
-lateinit var binding:FragmentHomeGarbageBinding
-    lateinit var auth: FirebaseAuth
-    lateinit var dRef: DatabaseReference
-    lateinit var adp: rescueAdapter
-    var array= ArrayList<model>()
+    lateinit var binding: FragmentHomeGarbageBinding
+    lateinit var viewModel: HomeViewModel
+    lateinit var adp: garbageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,45 +45,52 @@ lateinit var binding:FragmentHomeGarbageBinding
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=FragmentHomeGarbageBinding.inflate(inflater,container,false)
+        binding = FragmentHomeGarbageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.progress1.visibility=View.VISIBLE
-        auth= FirebaseAuth.getInstance()
-        array=arrayListOf()
-        binding.garbagelRecycle.layoutManager= LinearLayoutManager(requireContext())
-        adp= rescueAdapter(requireContext(),array)
-        binding.garbagelRecycle.adapter=adp
-
-        dRef= FirebaseDatabase.getInstance().getReference("garbage_data")
+        viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        binding.progress1.visibility = View.VISIBLE
+        garbageLoadData()
+        binding.progress1.visibility = View.GONE
 
 
-        dRef.addValueEventListener(object: ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(snapshot: DataSnapshot) {
-                array.clear()
-                for (postSnapShot in snapshot.children){
-                    var post=postSnapShot.getValue(model::class.java)
-                    array.add(post!!)
-
-                }
-                adp.notifyDataSetChanged()
-                binding.progress1.visibility=View.INVISIBLE
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onQueryTextChange(newText: String?): Boolean {
+                fliter1(newText!!)
+                return false
             }
-
         })
-
     }
 
-//    override fun onItemDelete(position: Int) {
-//        adp.deleteData(position)
-//    }
+    private fun fliter1(text: String) {
+        var newList = ArrayList<garbageModel>()
+        viewModel.garbageLivedata.observe(requireActivity(), Observer {
+            for (post in it) {
+                if (post.location!!.toUpperCase().contains(text.toUpperCase())) {
+                    newList.add(post!!)
+                }
+                if (newList == null) {
+                    Toast.makeText(requireContext(), "no data found", Toast.LENGTH_SHORT).show()
+                } else {
+                    adp.filterList(newList)
+                }
+            }
+        })
+    }
+
+    fun garbageLoadData() {
+        viewModel.garbageLivedata.observe(requireActivity(), Observer {
+            binding.garbagelRecycle.layoutManager = LinearLayoutManager(requireContext())
+            adp = garbageAdapter(requireContext(), it)
+            binding.garbagelRecycle.adapter = adp
+        })
+        viewModel.loadGarbageData()
+    }
 }
